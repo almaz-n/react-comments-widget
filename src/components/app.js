@@ -8,11 +8,7 @@ class App extends React.Component {
 
     constructor() {
         super();
-                // [
-        //     {s: 1},
-        //     {e: 2}
-        // ]
-
+        
         this.commentsList = JSON.parse(localStorage.getItem('comments'));
         if(!this.commentsList) {
             localStorage.setItem('comments', JSON.stringify([]));
@@ -27,14 +23,26 @@ class App extends React.Component {
     }
 
     render() {
-        const data = this.commentsList;
+        const data = this.commentsList;        
+        var newsTemplate;
+        
         console.log(data);
+
+        if(data.length) {
+            newsTemplate = data.map(function(item) {
+               return (
+                    <CommentItem {...item}
+                />
+               )
+            })
+        } else {
+            newsTemplate = <p>Комментарий нет</p>
+        }
 
         return (		
             <div className="articles">
                 <h1>Комментарии</h1>                
-
-                {commentList}
+                {newsTemplate}
             </div>	
         )
     }
