@@ -1,6 +1,6 @@
 import React from 'react';
 
-class LoginForm extends React.Component {
+class CommentForm extends React.Component {
     constructor() {
       super();
       this.state = {author: '', comment: ''};
@@ -10,36 +10,53 @@ class LoginForm extends React.Component {
       this.onSubmit = this.onSubmit.bind(this);
     }    
 
-    setStore(val) {
-        const comments = JSON.parse(localStorage.getItem('comments'));
-        comments.push(val);
+    // добавление новых комментариев в localStorage
+    setStore(comment) {
+        const comments = this.props.comments;
 
+        if(!comments) {
+            comments = [];
+        }
+        
+        comments.push(comment);
         localStorage.setItem('comments', JSON.stringify(comments));
     }
 
-    // добавление комментария
+    // добавление комментария, событие отправки формы
 	addComment() {
-        if(this.state.author !== '' && this.state.comment !== '') {
-            const data = {name:this.state.author, author: this.state.comment}
-            this.setState(data);
-            const todos = this.state.todos;            
-           
+        var authorVal = this.state.author.trim();
+        var commentVal = this.state.comment.trim();
+
+        // проверяем на заполненность полей автор комментарий
+        if(authorVal && commentVal) {
+            const data = {
+                author : authorVal, 
+                comment: commentVal
+            }
+
+            this.setState(data);          
         } else {
             alert('поля является обязательным! вы ввели пустое значение');
         }		
     }
 
-    onCommentChange(event){
-      this.setState({comment: event.target.value});
+    // событие изменения поля автор
+    onAuthorChange(event) {
+        this.setState({
+            author: event.target.value
+        });
     }
 
-    onAuthorChange(event) {
-      this.setState({author: event.target.value});
-    }
+    // событие изменения поля комментарий
+    onCommentChange(event){
+      this.setState({
+          comment: event.target.value
+        });
+    }    
 
     render() {
       return (
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={this.addComment}>
             <p>
                 <label> Автор: <input   type="text" name="author" 
                                         value={this.state.author}
@@ -54,10 +71,10 @@ class LoginForm extends React.Component {
                                       />
                 </label>
             </p>
-            <p><input type="submit" value="Submit" /></p>
+            <p><button type="submit">Добавить комментарий</button></p>
         </form>
       );
     }
   }
 
-export default LoginForm;
+export default CommentForm;
