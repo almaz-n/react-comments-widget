@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app';
+import CommentList from './components/comment-list';
 
 
 ReactDOM.render( 
-	<App/> ,
+	<CommentList/> ,
 	document.getElementById('root')
 );

@@ -5,9 +5,17 @@ const CommentItem = (props) => {
     return ( 
         <li className="articles-list__item" id={props.id}>        
             <p><b>Автор: {props.author}</b></p>
-            <p>{props.text}</p>
+            <p>Комментарий: {props.comment}</p>
             <date>Дата: {props.date}</date>
-            <button className="js-delete-comment">x</button>
+            <button 
+                    className="js-delete-comment" 
+                    title="удалить" 
+                    onClick={
+                        () => {
+                            this.props.delete(props.id)
+                        }
+                    }
+            >x</button>
         </li>
     )
 }
