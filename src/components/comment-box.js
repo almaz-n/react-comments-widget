@@ -28,13 +28,13 @@ class CommentBox extends React.Component {
 
     // удаление комментария
     deleteComment(id) {
-        // const updateList = this.state.comments.filter(item => item.id !== id);
+        const updateList = this.state.comments.filter(item => item.id !== id);
 
-        // this.setState({
-        //     comments: updateList
-        // })
-        console.log(2);
+        this.setState({
+            comments: updateList
+        })
     }
+
     // генерируем id комментария
     getIdComment() {
         const ms = new Date();
@@ -81,7 +81,7 @@ class CommentBox extends React.Component {
                 date: this.getDateComment() 
             }
 
-            currentComments.push(newComment)
+            currentComments.unshift(newComment)
             localStorage.setItem('comments', JSON.stringify(currentComments));
 
             this.setState({
@@ -99,14 +99,14 @@ class CommentBox extends React.Component {
         let newsTemplate;
         
         if(data.length) {
-            newsTemplate = data.map(function(item) {
+            newsTemplate = data.map( (item) => {
                 return (
                     <CommentItem 
                         id={item.id}
                         author={item.author}
                         comment={item.comment}
                         date={item.date} 
-                        delete={this.deleteComment}
+                        deleteComment={this.deleteComment}
                     />
                 )
             })
@@ -121,7 +121,7 @@ class CommentBox extends React.Component {
                     onAuthorChange={this.onAuthorChange}
                     onCommentChange={this.onCommentChange}
                     author={this.state.author}
-                    comment={this.state.onCommentChange}
+                    comment={this.state.comment}
                 />
                 <hr/> 
                 <h3>Комментарии</h3>   

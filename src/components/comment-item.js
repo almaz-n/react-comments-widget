@@ -12,7 +12,7 @@ const CommentItem = (props) => {
                     title="удалить" 
                     onClick={
                         () => {
-                            this.props.delete(props.id)
+                            props.deleteComment(props.id)
                         }
                     }
             >x</button>
