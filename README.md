@@ -1,8 +1,10 @@
 # react-comments-widget
 
-Установка и запуск: 
-    1. npm i
-    2. npm run dev (npm run start:dev)
+Установка и запуск:
+
+1. npm i
+
+2. npm run dev
 
 Виджет комментариев на React:
 
