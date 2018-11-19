@@ -30,6 +30,7 @@ class CommentBox extends React.Component {
     deleteComment(id) {
         const updateList = this.state.comments.filter(item => item.id !== id);
 
+        localStorage.setItem('comments', JSON.stringify(updateList));
         this.setState({
             comments: updateList
         })
@@ -65,33 +66,45 @@ class CommentBox extends React.Component {
         });
     } 
 
+    // валидация полей ввода 
+    validateInput(str) {
+        if(str.match(/<([^>]+?)([^>]*?)>(.*?)<\/\1>/ig)) {
+            return false;
+        } 
+        return true;        
+    }
+
     // добавление комментария, событие отправки формы
     addComment(event) {
         event.preventDefault();
-        var authorVal = this.state.author.trim();
-        var commentVal = this.state.comment.trim();
-
+        const authorVal = this.state.author.trim();
+        const commentVal = this.state.comment.trim();
+        
         // проверяем на заполненность полей автор комментарий
         if(authorVal && commentVal) {
-            const currentComments = this.state.comments;
-            const newComment = {
-                id : this.getIdComment(),
-                author : authorVal, 
-                comment: commentVal,
-                date: this.getDateComment() 
-            }
+            if(this.validateInput(authorVal) && this.validateInput(commentVal)) {
+                const currentComments = this.state.comments;
+                const newComment = {
+                    id : this.getIdComment(),
+                    author : authorVal, 
+                    comment: commentVal,
+                    date: this.getDateComment() 
+                }
 
-            currentComments.unshift(newComment)
-            localStorage.setItem('comments', JSON.stringify(currentComments));
+                currentComments.unshift(newComment)
+                localStorage.setItem('comments', JSON.stringify(currentComments));
 
-            this.setState({
-                comments: currentComments,
-                author: '', 
-                comment: ''
-            })       
+                this.setState({
+                    comments: currentComments,
+                    author: '', 
+                    comment: ''
+                })   
+            } else {
+                alert('поля содержат недопустимые символы');
+            }     
         } else {
             alert('поля является обязательным! вы ввели пустое значение');
-        }		
+        }       		
     }
 
     render() {        
